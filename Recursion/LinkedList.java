@@ -1,9 +1,9 @@
-class Node<T> {
+class LinkedListNode<T> {
     private T data;
-    private Node<T> next;
-    private Node<T> previous;
+    private LinkedListNode<T> next;
+    private LinkedListNode<T> previous;
 
-    public Node(T data) {
+    public LinkedListNode(T data) {
         this.data = data;
         this.next = null;
         this.previous = null;
@@ -13,42 +13,42 @@ class Node<T> {
         return data;
     }
 
-    public Node<T> getNext() {
+    public LinkedListNode<T> getNext() {
         return next;
     }
 
-    public void setNext(Node<T> next) {
+    public void setNext(LinkedListNode<T> next) {
         this.next = next;
     }
 
-    public Node<T> getPrevious() {
+    public LinkedListNode<T> getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Node<T> previous) {
+    public void setPrevious(LinkedListNode<T> previous) {
         this.previous = previous;
     }
 }
 
 public class LinkedList<T> {
-    private Node<T> head;
-    private Node<T> tail;
+    private LinkedListNode<T> head;
+    private LinkedListNode<T> tail;
 
     public LinkedList() {
         head = null;
         tail = null;
     }
 
-    public Node<T> getHead() {
+    public LinkedListNode<T> getHead() {
         return head;
     }
 
-    public Node<T> getTail() {
+    public LinkedListNode<T> getTail() {
         return tail;
     }
 
     public void insertHead(T data) {
-        Node<T> newHead = new Node<T>(data);
+        LinkedListNode<T> newHead = new LinkedListNode<T>(data);
         if (head == null) {
             head = newHead;
             tail = newHead;
@@ -60,7 +60,7 @@ public class LinkedList<T> {
     }
 
     public void insertTail(T data) {
-        Node<T> newTail = new Node<T>(data);
+        LinkedListNode<T> newTail = new LinkedListNode<T>(data);
         if (tail == null) {
             head = newTail;
             tail = newTail;
@@ -75,16 +75,33 @@ public class LinkedList<T> {
         printRecursion(head);
     }
 
-    private void printRecursion(Node<T> head) {
-        if (head == null)
+    private void printRecursion(LinkedListNode<T> head) {
+        if (head == null) {
+            System.out.println();
             return;
+        }
 
         System.out.print(head.getData() + " ");
 
         printRecursion(head.getNext());
     }
 
-    public static void main(String[] args){
+    public void reverse() {
+        head = reverseRecusive(head);
+    }
+
+    private LinkedListNode<T> reverseRecusive(LinkedListNode<T> head) {
+        if (head == null || head.getNext() == null)
+            return head;
+        LinkedListNode<T> secondHead = head.getNext();
+        head.setNext(null);
+        LinkedListNode<T> newHead = reverseRecusive(secondHead);
+        secondHead.setNext(head);
+
+        return newHead;
+    }
+
+    public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<Integer>();
 
         list.insertHead(1);
@@ -93,8 +110,9 @@ public class LinkedList<T> {
         list.insertTail(4);
 
         list.print();
+
+        list.reverse();
+
+        list.print();
     }
 }
-
-
-
