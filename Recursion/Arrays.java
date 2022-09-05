@@ -28,14 +28,17 @@ public class Arrays<T> {
     }
 
     private void reverseRecursive(T[] arr, int start, int end) {
+        // base class
         if(start > end) {
             return;
         }
 
+        // process
         T temp = arr[start];
         arr[start] = arr[end];
         arr[end] = temp;
         
+        // recursive call
         reverseRecursive(arr, start + 1, end - 1);
     }
 
