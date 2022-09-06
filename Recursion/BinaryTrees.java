@@ -63,6 +63,39 @@ public class BinaryTrees {
         System.out.println();
     }
 
+    public int MaxDepth() {
+        return MaxDepthHelper(root);
+    }
+
+    public boolean isSymmetric() {
+        if(root == null)
+            return true;
+        
+        return CheckMirror(root.leftChild, root.rightChild);
+    }
+    
+    public boolean CheckMirror(BinaryTreeNode<Integer> root1, BinaryTreeNode<Integer> root2) {
+        if(root1 == null && root2 == null)
+            return true;
+        
+        if(root1 != null && root2 == null)
+            return false;
+        
+        if(root1 == null && root2 != null)
+            return false;
+        
+        if(root1.data != root2.data)
+            return false;
+        
+        if(!CheckMirror(root1.leftChild, root2.rightChild))
+            return false;
+        
+        if(!CheckMirror(root1.rightChild, root2.leftChild))
+            return false;
+        
+        return true;
+    }
+
     private BinaryTreeNode<Integer> CreateBinaryTreeNode(Integer data) {
         return new BinaryTreeNode<Integer>(data);
     }
@@ -131,11 +164,22 @@ public class BinaryTrees {
         System.out.print(root.data + " ");
     }
 
+    private int MaxDepthHelper(BinaryTreeNode<Integer> root) {
+        if (root == null)
+            return 0;
+
+        int left = MaxDepthHelper(root.leftChild);
+        int right = MaxDepthHelper(root.rightChild);
+
+        return 1 + Math.max(left, right);
+    }
+
     public static void main(String args[]) {
         BinaryTrees binaryTrees = new BinaryTrees();
         binaryTrees.BuildTree();
         binaryTrees.PreOrderTraversal();
         binaryTrees.InOrderTraversal();
         binaryTrees.PostOrderTraversal();
+        System.out.println("Height/Depth of the tree: " + binaryTrees.MaxDepth());
     }
 }
