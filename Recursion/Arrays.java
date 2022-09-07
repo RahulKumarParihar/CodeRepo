@@ -17,6 +17,10 @@ public class Arrays {
         mergeSortHelper(array, 0, array.length - 1);
     }
 
+    public boolean binarySearch(int target) {
+        return binarySearchHelper(array, target, 0, array.length - 1);
+    }
+
     private void printRecursive(int[] arr, int index, int end) {
         // base case
         if (index == end) {
@@ -107,11 +111,28 @@ public class Arrays {
             index2++;
         }
     }
-    
+
+    private boolean binarySearchHelper(int[] arr, int target, int start, int end) {
+        if(start > end)
+            return false;
+
+        int  mid = start + (end - start) / 2;
+
+        if(target == arr[mid])
+            return true;
+        else if (target > arr[mid]) {
+            return binarySearchHelper(arr, target, mid + 1, end);
+        } else {
+            return binarySearchHelper(arr, target, start, mid - 1);
+        }
+    }
+
     public static void main(String args[]) {
         Arrays arrays = new Arrays(new int[] { 12, 3, 99, 99, 38, 27, 43, 3, 9, -1, 12, 82 });
         arrays.print();
         arrays.mergeSort();
         arrays.print();
+        System.out.println(arrays.binarySearch(15));
+        System.out.println(arrays.binarySearch(-1));
     }
 }
