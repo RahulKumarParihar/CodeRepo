@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -208,6 +210,71 @@ public class BinaryTrees {
                 || search(root.rightChild, target);
     }
 
+    public List<String> getPaths() {
+        List<String> paths = new ArrayList<>();
+
+        getPathsHelper(root, paths, new StringBuilder());
+
+        return paths;
+    }
+
+    private void getPathsHelper(BinaryTreeNode<Integer> root, List<String> paths, StringBuilder sb) {
+        if(root == null) {
+            paths.add(sb.toString());
+            return;
+        }
+
+        sb.append(root.data);
+
+        // Since this will print the path twice
+        if(root.leftChild == null && root.rightChild == null) {
+            paths.add(sb.toString());
+            sb.deleteCharAt(sb.length() - 1);
+            return;
+        }
+
+        getPathsHelper(root.leftChild, paths, sb);
+        getPathsHelper(root.rightChild, paths, sb);
+
+        // replacing 
+        sb.deleteCharAt(sb.length() - 1);
+    }
+
+    public String getLongestPath() {
+        StringBuilder longestPath = new StringBuilder();
+        getLongestPathHelper(root, new StringBuilder(), longestPath);
+        return longestPath.toString();
+    }
+
+    private void getLongestPathHelper(BinaryTreeNode<Integer> root, StringBuilder sb, StringBuilder longestPath) {
+        if(root == null) {
+            if(longestPath.length() < sb.length()) {
+                longestPath.delete(0, longestPath.length());
+                longestPath.append(sb.toString());
+            }
+
+            return;
+        }
+
+        sb.append(root.data);
+
+        // Since this will print the path twice
+        if(root.leftChild == null && root.rightChild == null) {
+            if(longestPath.length() < sb.length()) {
+                longestPath.delete(0, longestPath.length());
+                longestPath.append(sb.toString());
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            return;
+        }
+
+        getLongestPathHelper(root.leftChild, sb, longestPath);
+        getLongestPathHelper(root.rightChild, sb, longestPath);
+
+        // replacing 
+        sb.deleteCharAt(sb.length() - 1);
+    }
+
     public static void main(String args[]) {
         BinaryTrees binaryTrees = new BinaryTrees();
         binaryTrees.BuildTree();
@@ -222,5 +289,13 @@ public class BinaryTrees {
         System.out.println("Search 8: " + binaryTrees.search(binaryTrees.root, 8));
         System.out.println("Search 15: " + binaryTrees.search(binaryTrees.root, 15));
         System.out.println("Search -1: " + binaryTrees.search(binaryTrees.root, -1));
+
+        List<String> paths = binaryTrees.getPaths();
+
+        for (String path : paths) {
+            System.out.println(path);
+        }
+
+        System.out.println("Longest Path: " + binaryTrees.getLongestPath());
     }
 }
