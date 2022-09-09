@@ -174,6 +174,18 @@ public class BinaryTrees {
         return 1 + Math.max(left, right);
     }
 
+    public void createMirror(BinaryTreeNode<Integer> root) {
+        if(root == null)
+            return;
+
+        BinaryTreeNode<Integer> temp = root.leftChild;
+        root.leftChild = root.rightChild;
+        root.rightChild = temp;
+
+        createMirror(root.leftChild);
+        createMirror(root.rightChild);
+    }
+
     public static void main(String args[]) {
         BinaryTrees binaryTrees = new BinaryTrees();
         binaryTrees.BuildTree();
@@ -181,5 +193,9 @@ public class BinaryTrees {
         binaryTrees.InOrderTraversal();
         binaryTrees.PostOrderTraversal();
         System.out.println("Height/Depth of the tree: " + binaryTrees.MaxDepth());
+        binaryTrees.createMirror(binaryTrees.root);
+        binaryTrees.PreOrderTraversal();
+        binaryTrees.InOrderTraversal();
+        binaryTrees.PostOrderTraversal();
     }
 }
