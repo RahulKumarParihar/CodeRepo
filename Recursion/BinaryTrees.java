@@ -68,31 +68,31 @@ public class BinaryTrees {
     }
 
     public boolean isSymmetric() {
-        if(root == null)
+        if (root == null)
             return true;
-        
+
         return CheckMirror(root.leftChild, root.rightChild);
     }
-    
+
     public boolean CheckMirror(BinaryTreeNode<Integer> root1, BinaryTreeNode<Integer> root2) {
-        if(root1 == null && root2 == null)
+        if (root1 == null && root2 == null)
             return true;
-        
-        if(root1 != null && root2 == null)
+
+        if (root1 != null && root2 == null)
             return false;
-        
-        if(root1 == null && root2 != null)
+
+        if (root1 == null && root2 != null)
             return false;
-        
-        if(root1.data != root2.data)
+
+        if (root1.data != root2.data)
             return false;
-        
-        if(!CheckMirror(root1.leftChild, root2.rightChild))
+
+        if (!CheckMirror(root1.leftChild, root2.rightChild))
             return false;
-        
-        if(!CheckMirror(root1.rightChild, root2.leftChild))
+
+        if (!CheckMirror(root1.rightChild, root2.leftChild))
             return false;
-        
+
         return true;
     }
 
@@ -174,8 +174,12 @@ public class BinaryTrees {
         return 1 + Math.max(left, right);
     }
 
+    /**
+     * PreOrder
+     * @param root
+     */
     public void createMirror(BinaryTreeNode<Integer> root) {
-        if(root == null)
+        if (root == null)
             return;
 
         BinaryTreeNode<Integer> temp = root.leftChild;
@@ -184,6 +188,24 @@ public class BinaryTrees {
 
         createMirror(root.leftChild);
         createMirror(root.rightChild);
+    }
+
+    /**
+     * PreOrder
+     * @param root
+     * @param target
+     * @return
+     */
+    public boolean search(BinaryTreeNode<Integer> root, int target) {
+        // base case
+        if (root == null)
+            return false;
+
+        if (root.data == target)
+            return true;
+
+        return search(root.leftChild, target)
+                || search(root.rightChild, target);
     }
 
     public static void main(String args[]) {
@@ -197,5 +219,8 @@ public class BinaryTrees {
         binaryTrees.PreOrderTraversal();
         binaryTrees.InOrderTraversal();
         binaryTrees.PostOrderTraversal();
+        System.out.println("Search 8: " + binaryTrees.search(binaryTrees.root, 8));
+        System.out.println("Search 15: " + binaryTrees.search(binaryTrees.root, 15));
+        System.out.println("Search -1: " + binaryTrees.search(binaryTrees.root, -1));
     }
 }
