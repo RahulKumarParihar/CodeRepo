@@ -297,39 +297,69 @@ public class BinaryTrees {
         }
     }
 
-    private static boolean isTreeSumTree;
+    private boolean isTreeSumTree;
 
-	boolean isSumTree(BinaryTreeNode<Integer> root)
-	{
-        if(root == null)
+    boolean isSumTree(BinaryTreeNode<Integer> root) {
+        if (root == null)
             return true;
-            
-        isTreeSumTree = true;    
-        
+
+        isTreeSumTree = true;
+
         treeSum(root);
-        
-        return isTreeSumTree;     
-	}
-	
-	public int treeSum(BinaryTreeNode<Integer> root) {
-        if(root == null)
+
+        return isTreeSumTree;
+    }
+
+    public int treeSum(BinaryTreeNode<Integer> root) {
+        if (root == null)
             return 0;
-        
-        if(root.leftChild == null && root.rightChild == null)
+
+        if (root.leftChild == null && root.rightChild == null)
             return root.data;
-        
+
         int left = treeSum(root.leftChild);
         int right = treeSum(root.rightChild);
-        
+
         int sum = left + right;
-        
-        if(sum != root.data) {
+
+        if (sum != root.data) {
             isTreeSumTree = false;
         }
-            
+
         return sum + root.data;
     }
 
+    private int diameterOfTree;
+
+    public int getDiameter() {
+        diameterOfTree = 0;
+
+        diameterHelper(root);
+
+        return diameterOfTree;
+    }
+
+    private int diameterHelper(BinaryTreeNode<Integer> root) {
+        if (root == null)
+            return 0;
+
+        int left = diameterHelper(root.leftChild);
+        int right = diameterHelper(root.rightChild);
+
+        if (diameterOfTree < left + right) {
+            diameterOfTree = left + right;
+        }
+
+        return Math.max(left, right) + 1;
+    }
+
+    /**
+     * Input for tree creation is below
+     * 1 2 3 4 5 6 7 -1 -1 -1 8 -1 -1 -1 -1 -1 -1
+     * 1 2 3 4 5 10 9 -1 6 -1 7 -1 -1 -1 -1 11 -1 8 -1 -1 12 -1 -1 -1 -1
+     * 
+     * @param args
+     */
     public static void main(String args[]) {
         BinaryTrees binaryTrees = new BinaryTrees();
         binaryTrees.BuildTree();
@@ -354,5 +384,6 @@ public class BinaryTrees {
         System.out.println("Longest Path: " + binaryTrees.getLongestPath());
         System.out.println("LCA of 8,4: " + binaryTrees.lowestCommonAncestor(binaryTrees.root, 8, 4).data);
         System.out.println("LCA of 1,7: " + binaryTrees.lowestCommonAncestor(binaryTrees.root, 1, 7).data);
+        System.out.println("Diameter of tree: " + binaryTrees.getDiameter());
     }
 }
