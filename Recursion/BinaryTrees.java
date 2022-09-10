@@ -178,6 +178,7 @@ public class BinaryTrees {
 
     /**
      * PreOrder
+     * 
      * @param root
      */
     public void createMirror(BinaryTreeNode<Integer> root) {
@@ -194,6 +195,7 @@ public class BinaryTrees {
 
     /**
      * PreOrder
+     * 
      * @param root
      * @param target
      * @return
@@ -219,7 +221,7 @@ public class BinaryTrees {
     }
 
     private void getPathsHelper(BinaryTreeNode<Integer> root, List<String> paths, StringBuilder sb) {
-        if(root == null) {
+        if (root == null) {
             paths.add(sb.toString());
             return;
         }
@@ -227,7 +229,7 @@ public class BinaryTrees {
         sb.append(root.data);
 
         // Since this will print the path twice
-        if(root.leftChild == null && root.rightChild == null) {
+        if (root.leftChild == null && root.rightChild == null) {
             paths.add(sb.toString());
             sb.deleteCharAt(sb.length() - 1);
             return;
@@ -236,7 +238,7 @@ public class BinaryTrees {
         getPathsHelper(root.leftChild, paths, sb);
         getPathsHelper(root.rightChild, paths, sb);
 
-        // replacing 
+        // replacing
         sb.deleteCharAt(sb.length() - 1);
     }
 
@@ -247,8 +249,8 @@ public class BinaryTrees {
     }
 
     private void getLongestPathHelper(BinaryTreeNode<Integer> root, StringBuilder sb, StringBuilder longestPath) {
-        if(root == null) {
-            if(longestPath.length() < sb.length()) {
+        if (root == null) {
+            if (longestPath.length() < sb.length()) {
                 longestPath.delete(0, longestPath.length());
                 longestPath.append(sb.toString());
             }
@@ -259,8 +261,8 @@ public class BinaryTrees {
         sb.append(root.data);
 
         // Since this will print the path twice
-        if(root.leftChild == null && root.rightChild == null) {
-            if(longestPath.length() < sb.length()) {
+        if (root.leftChild == null && root.rightChild == null) {
+            if (longestPath.length() < sb.length()) {
                 longestPath.delete(0, longestPath.length());
                 longestPath.append(sb.toString());
             }
@@ -271,8 +273,28 @@ public class BinaryTrees {
         getLongestPathHelper(root.leftChild, sb, longestPath);
         getLongestPathHelper(root.rightChild, sb, longestPath);
 
-        // replacing 
+        // replacing
         sb.deleteCharAt(sb.length() - 1);
+    }
+
+    public BinaryTreeNode<Integer> lowestCommonAncestor(BinaryTreeNode<Integer> root, Integer p, Integer q) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.data == p || root.data == q)
+            return root;
+
+        BinaryTreeNode<Integer> left = lowestCommonAncestor(root.leftChild, p, q);
+        BinaryTreeNode<Integer> right = lowestCommonAncestor(root.rightChild, p, q);
+
+        if (left != null && right != null) {
+            return root;
+        } else if (left == null) {
+            return right;
+        } else {
+            return left;
+        }
     }
 
     public static void main(String args[]) {
@@ -297,5 +319,7 @@ public class BinaryTrees {
         }
 
         System.out.println("Longest Path: " + binaryTrees.getLongestPath());
+        System.out.println("LCA of 8,4: " + binaryTrees.lowestCommonAncestor(binaryTrees.root, 8, 4).data);
+        System.out.println("LCA of 1,7: " + binaryTrees.lowestCommonAncestor(binaryTrees.root, 1, 7).data);
     }
 }
