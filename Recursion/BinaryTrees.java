@@ -297,6 +297,39 @@ public class BinaryTrees {
         }
     }
 
+    private static boolean isTreeSumTree;
+
+	boolean isSumTree(BinaryTreeNode<Integer> root)
+	{
+        if(root == null)
+            return true;
+            
+        isTreeSumTree = true;    
+        
+        treeSum(root);
+        
+        return isTreeSumTree;     
+	}
+	
+	public int treeSum(BinaryTreeNode<Integer> root) {
+        if(root == null)
+            return 0;
+        
+        if(root.leftChild == null && root.rightChild == null)
+            return root.data;
+        
+        int left = treeSum(root.leftChild);
+        int right = treeSum(root.rightChild);
+        
+        int sum = left + right;
+        
+        if(sum != root.data) {
+            isTreeSumTree = false;
+        }
+            
+        return sum + root.data;
+    }
+
     public static void main(String args[]) {
         BinaryTrees binaryTrees = new BinaryTrees();
         binaryTrees.BuildTree();
