@@ -1,2 +1,2 @@
 # CodeRepo
-Self Learning Programming concept
+Self Learning Programming Concepts
