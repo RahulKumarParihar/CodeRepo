@@ -53,6 +53,28 @@ public class IncludeExcludePattern {
         return Math.max(include, exclude);
     }
 
+    /**
+     * @param str1
+     * @param str2
+     * @return
+     */
+    public int longestCommonSubsequence(String str1, String str2) {
+        return longestCommonSubsequenceHelper(str1, 0, str2, 0);
+    }
+
+    private int longestCommonSubsequenceHelper(String str1, int index1, String str2, int index2) {
+        if (index1 == str1.length() || index2 == str2.length())
+            return 0;
+
+        if (str1.charAt(index1) == str2.charAt(index2)) {
+            return 1 + longestCommonSubsequenceHelper(str1, index1 + 1, str2, index2 + 1);
+        }
+
+        return Math.max(
+                longestCommonSubsequenceHelper(str1, index1 + 1, str2, index2),
+                longestCommonSubsequenceHelper(str1, index1, str2, index2 + 1));
+    }
+
     public static void main(String[] args) {
         IncludeExcludePattern pattern = new IncludeExcludePattern();
 
@@ -64,5 +86,12 @@ public class IncludeExcludePattern {
         // longestSubsequence
         int[] longestSubsequenceArray = new int[] { 0, 3, 1, 6, 2, 2, 7 };
         System.out.println("Longest Subsequence: " + pattern.longestSubsequence(longestSubsequenceArray));
+
+        // longestCommonSubsequence
+        String str1 = "aaaabaaaa";
+        String str2 = "aabbbabaaa";
+        System.out.println("Longest common subsequence between " + str1 + " and " + str2 + ": "
+                + pattern.longestCommonSubsequence(str1, str2));
+
     }
 }
