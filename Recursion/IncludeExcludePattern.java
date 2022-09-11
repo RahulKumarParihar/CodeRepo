@@ -75,6 +75,39 @@ public class IncludeExcludePattern {
                 longestCommonSubsequenceHelper(str1, index1, str2, index2 + 1));
     }
 
+    /**
+     * @param array
+     * @return
+     */
+    public int longestArithmeticSubsequence(int[] array) {
+        int ans = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = i + 1; j < array.length; j++) {
+                ans = Math.max(
+                        2 + longestArithmeticSubsequenceHelper(array, i, array[j] - array[i]), //catch here: add 2 for elements rep. by ith and jth index
+                        ans);
+            }
+        }
+
+        return ans;
+    }
+
+    private int longestArithmeticSubsequenceHelper(int[] arr, int k, int diff) {
+        if (k < 0)
+            return 0;
+
+        int result = 0;
+        for (int i = k - 1; i >= 0; i--) {
+            if (arr[k] - arr[i] == diff) {
+                result = Math.max(
+                        result,
+                        1 + longestArithmeticSubsequenceHelper(arr, i, diff)); //number in AP found
+            }
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) {
         IncludeExcludePattern pattern = new IncludeExcludePattern();
 
@@ -93,5 +126,9 @@ public class IncludeExcludePattern {
         System.out.println("Longest common subsequence between " + str1 + " and " + str2 + ": "
                 + pattern.longestCommonSubsequence(str1, str2));
 
+        // longestArithmeticSubsequence
+        int[] longestArithmeticSubsequenceArray = new int[] { 0, 3, 1, 6, 2, 9, 7 };
+        System.out.println("Longest Arithmetic Subsequence: "
+                + pattern.longestArithmeticSubsequence(longestArithmeticSubsequenceArray));
     }
 }
